@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 
 
-function Counter() {
-    const [count, setCount] = useState(0);
+function Counter({save, load, initital = 0}) {
+    const [count, setCount] = useState(parseInt(load() ?? initital));
 
     useEffect(() => {
         document.title = `Вы нажали ${count} раз`
+        save(count);
     });
 
     const increase = () => {

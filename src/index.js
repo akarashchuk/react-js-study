@@ -5,14 +5,24 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Counter from './Counter';
 import ShoppingList from './ShoppingList';
-
+import withLocalStorage from './withLocalStorage'
+import { NotificationProvider } from './context/NotificationContext';
+import NotificationBar from './components/NotificationBar';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const StorageShoppingList = withLocalStorage('shopping-list', ShoppingList);
+const StorageCounter = withLocalStorage('counter', Counter);
+
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
-    {/* <Counter/> */}
-    <ShoppingList/>
+    <NotificationProvider>
+      <NotificationBar/>
+      {/* <App /> */}
+      {/* <Counter/> */}
+      <StorageShoppingList/>
+      {/* <StorageCounter initial={20}/> */}
+    </NotificationProvider>
   </React.StrictMode>
 );
 

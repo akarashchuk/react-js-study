@@ -1,26 +1,34 @@
-import { useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import NotificationContext from "./context/NotificationContext";
 
 
 
-function ShoppingList() {
-    const [input, setInput] = useState('');
-    const [items, setItems] = useState([]);
+function ShoppingList(props) {
+    const {save, load} = props;
 
-    const onInputChange = (e) => {
-        setInput(e.target.value);
-    }
+    const input = useRef('');
+    // const [input, setInput] = useState('');
+    const [items, setItems] = useState(JSON.parse(load()) ?? []);
+    const ctx = useContext(NotificationContext);
+
+    useEffect(() => {
+        save(JSON.stringify(items));
+    }, [items]);
 
     const addItem = (e) => {
         e.preventDefault();
 
-        if (input === '') {
+        if (input.current.value === '') {
+            ctx.error('Input is empty');
             return;
         }
 
-        const newItems = [...items, {value: input, isDone: false}];
+        const newItems = [...items, {value: input.current.value, isDone: false}];
         setItems(newItems);
 
-        setInput('');
+        input.current.value = '';
+        input.current.blur();
+        ctx.success('Item was added!');
     }
 
     const toggleComplete = (index) => {
@@ -37,7 +45,7 @@ function ShoppingList() {
             <h1 className="text-center">Shopping List</h1>           
             <div className="lg-6 md-8 sm-10 justify-content-center">
                 <form className="input-group" onSubmit={addItem}>
-                    <input onChange={onInputChange} value={input} type="text" className="form-control" />
+                    <input  ref={input} type="text" className="form-control" />
                     <div className="input-group-append">
                         <button className="input-group-text">Add</button>
                     </div>
