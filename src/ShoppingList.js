@@ -4,7 +4,7 @@ import NotificationContext from "./context/NotificationContext";
 
 
 function ShoppingList(props) {
-    const {save, load} = props;
+    const {save, load = () => {}} = props;
 
     const input = useRef('');
     // const [input, setInput] = useState('');

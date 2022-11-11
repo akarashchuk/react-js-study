@@ -8,6 +8,11 @@ import ShoppingList from './ShoppingList';
 import withLocalStorage from './withLocalStorage'
 import { NotificationProvider } from './context/NotificationContext';
 import NotificationBar from './components/NotificationBar';
+import Header from './components/Header';
+import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import About from './pages/About';
+import Post from './pages/Post';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -17,11 +22,19 @@ const StorageCounter = withLocalStorage('counter', Counter);
 root.render(
   <React.StrictMode>
     <NotificationProvider>
-      <NotificationBar/>
-      {/* <App /> */}
-      {/* <Counter/> */}
-      <StorageShoppingList/>
-      {/* <StorageCounter initial={20}/> */}
+      <BrowserRouter>
+        <Header/>
+        <div className='container'>
+          <NotificationBar/>
+          <Routes>
+            <Route path='/' element={<Home/>}/>
+            <Route path='/about' element={<About/>}/>
+            <Route path='/articles'>
+              <Route path=':id' element={<Post />}/>
+            </Route>
+          </Routes>
+        </div>
+      </BrowserRouter>
     </NotificationProvider>
   </React.StrictMode>
 );
