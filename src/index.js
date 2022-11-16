@@ -13,6 +13,8 @@ import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Post from './pages/Post';
+import { Provider } from 'react-redux';
+import store from './store/store'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -21,21 +23,24 @@ const StorageCounter = withLocalStorage('counter', Counter);
 
 root.render(
   <React.StrictMode>
-    <NotificationProvider>
-      <BrowserRouter>
-        <Header/>
-        <div className='container'>
-          <NotificationBar/>
-          <Routes>
-            <Route path='/' element={<Home/>}/>
-            <Route path='/about' element={<About/>}/>
-            <Route path='/articles'>
-              <Route path=':id' element={<Post />}/>
-            </Route>
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </NotificationProvider>
+    <Provider store={ store }>
+      <NotificationProvider>
+        <BrowserRouter>
+          <Header/>
+          <div className='container'>
+            <NotificationBar/>
+            <Routes>
+              <Route path='/' element={<Home/>}/>
+              <Route path='/about' element={<About/>}/>
+              <Route path='/articles'>
+                <Route path=':id' element={<Post />}/>
+              </Route>
+              <Route path='/todo' element={<ShoppingList/>}/>
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </NotificationProvider>
+    </Provider>
   </React.StrictMode>
 );
 
