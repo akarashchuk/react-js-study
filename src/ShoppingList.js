@@ -1,22 +1,12 @@
-import { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import AddNewItem from "./components/ShoppingList/AddNewItem";
 import Item from "./components/ShoppingList/Item";
-import NotificationContext from "./context/NotificationContext";
+import { getAllItems } from "./store/listSlice";
 
 
 
 function ShoppingList() {
-    const items = useSelector(state => state.items);
-
-    const toggleComplete = (index) => {
-        const newItems = [...items];
-
-        newItems[index].isDone = !newItems[index].isDone;
-        // newItems[index].isDone = newItems[index].isDone ? false : true;
-
-        // setItems(newItems);
-    }
+    const items = useSelector(getAllItems);
 
     return (
         <div className="container">

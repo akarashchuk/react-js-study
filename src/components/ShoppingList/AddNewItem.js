@@ -1,7 +1,7 @@
 import { useRef, useContext } from "react";
 import { useDispatch } from "react-redux";
 import NotificationContext from "../../context/NotificationContext";
-import { ADD_ITEM } from "../../store/actionTypes";
+import { add } from "../../store/listSlice";
 
 const AddNewItem = () => {
     const input = useRef('');
@@ -16,12 +16,7 @@ const AddNewItem = () => {
             return;
         }
 
-        const action = {
-            type: ADD_ITEM,
-            payload: input.current.value,
-        };
-
-        dispatch(action);
+        dispatch(add(input.current.value));
         // TODO add to store
         input.current.value = '';
         input.current.blur();
