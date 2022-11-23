@@ -1,28 +1,26 @@
 import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PostListItem from "../components/PostListItem";
+import { getAllArticles, fecthArticles } from "../store/articlesSlice";
 
 const Home = () => {
-    const dataLoaded = useRef(false);
-    const [articles, setArticles] = useState([]);
+    const dispatch = useDispatch();
+    const { entities, status } = useSelector(getAllArticles);
 
-    useEffect(()=> {
-        if (dataLoaded.current) {
-            return;
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fecthArticles());
         }
-        dataLoaded.current = true;
-
-        console.log(process.env.REACT_APP_API_URL);
-
-        const url = `${process.env.REACT_APP_API_URL}/api/articles`;
-        fetch(url)
-            .then(response => response.json())
-            .then(json =>  setArticles(json.data));
     }, []);
+
+    if (status === 'loading') {
+        return <h2>Loading</h2>;
+    }
 
     return (
         <div className="row mt-4">
             <div className="col-md-8">
-                {articles.map(article => 
+                {entities.map(article => 
                 <PostListItem
                     id={article.id}
                     key={article.id} 

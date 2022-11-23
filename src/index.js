@@ -22,7 +22,7 @@ const StorageShoppingList = withLocalStorage('shopping-list', ShoppingList);
 const StorageCounter = withLocalStorage('counter', Counter);
 
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={ store }>
       <NotificationProvider>
         <BrowserRouter>
@@ -41,7 +41,7 @@ root.render(
         </BrowserRouter>
       </NotificationProvider>
     </Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
